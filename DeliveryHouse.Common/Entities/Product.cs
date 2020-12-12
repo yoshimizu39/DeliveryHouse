@@ -10,6 +10,10 @@ namespace DeliveryHouse.Common.Entities
     {
         public int Id { get; set; }
 
+        public int IdStore { get; set; }
+
+        public int IdCategory { get; set; }
+
         [MaxLength(50, ErrorMessage = "The filed {0} must contain less than {1} characteres.")]
         [Required]
         public string Name { get; set; }
@@ -25,6 +29,11 @@ namespace DeliveryHouse.Common.Entities
 
         [DisplayName("Is Starred")]
         public bool IsStarred { get; set; }
+
         public string ImageProduct { get; set; }
+
+        public Store Store { get; set; }
+
+        public Category Category { get; set; }
     }
 }

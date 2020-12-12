@@ -1,0 +1,123 @@
+﻿@model DeliveryHouse.Common.Entities.Store
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<h1>Details</h1>
+
+<div>
+    <h4>Store</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Direction)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Direction)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Telephone)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Telephone)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+        <dd>
+            @if (string.IsNullOrEmpty(Model.ImageStore))
+            {
+                <img src="@Url.Content(Model.ImageFullPath)" style="width: 200px; height: 200px; max-width: 100%; height: auto;" />
+            }
+            else
+            {
+                <img src="@Url.Content(Model.ImageStore)" style="width: 200px; height: 200px; max-width: 100%; height: auto;" />
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="AddCategory" asp-route-id="@Model.Id" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add Category</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i> Edit Store</a>
+    <a asp-action="Index" class="btn btn-secondary"><i class="glyphicon glyphicon-fast-backward"></i> Back </a>
+</div>
+<hr />
+
+@*<div class="row">
+    <div class="col-md-12">
+        <div>
+            <div>
+                <h3>Category</h3>
+            </div>
+            <div>
+                <table class="table table-hover table-responsive-md table-striped" id="MyTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Categories.FirstOrDefault().Name)                               
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Categories.FirstOrDefault().ImageCategory)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Categories)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelitem => item.Name)
+                                </td>
+                                <td>
+                                    @if (string.IsNullOrEmpty(item.ImageCategory))
+                                    {
+                                        <img src="@Url.Content(item.ImageFullPath)" style="width: 200px; height: 200px; max-width: 100%; height: auto;" />
+                                    }
+                                    else
+                                    {
+                                        <img src="@Url.Content(item.ImageCategory)" style="width: 200px; height: 200px; max-width: 100%; height: auto;" />
+                                    }
+                                </td>
+                                <td>
+                                    <a asp-action="EditCategory" asp-route-id="@item.Id" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="glyphicon glyphicon-align-justify"></i></a>
+                                    <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="glyphicon glyphicon-trash"></i></button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<partial name="_DeleteDialog" />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="/js/deleteDialog.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //$('#MyTable').DataTable();
+            // Delete item
+            sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete', '/Countries/DeleteCategory/', false);
+        });
+    </script>
+}
