@@ -19,5 +19,8 @@ namespace DeliveryHouse.Web.Helpers
         Category ToCategoryEntity(CategoryViewModel model, string path, bool isnew);
         CategoryViewModel ToCategoryViewModel(Category entity);
 
+        Product ToProductEntity(ProductViewModel model, string path, bool isNew);
+        ProductViewModel ToProductViewModel(Product entity);
+
     }
 }

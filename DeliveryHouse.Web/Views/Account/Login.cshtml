@@ -1,0 +1,43 @@
+﻿@model DeliveryHouse.Web.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<h2>Login</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-warning"></span>
+            </div>
+            <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" type="password" class="form-control" />
+                <span asp-validation-for="Password" class="text-warning"></span>
+            </div>
+            <div class="form-group">
+                <div class="custom-checkbox">
+                    <input asp-for="RememberMe" type="checkbox" />
+                    <label asp-for="RememberMe" class="form-check-label"> Remember Me? </label>
+                </div>
+                <span asp-validation-for="RememberMe" class="text-warning"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" value="Send" class="btn btn-success"><i class="glyphicon glyphicon-log-in"></i> Login </button>
+                <a asp-action="Register" class="btn btn-primary"><i class="glyphicon glyphicon-new-window"></i> Register </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

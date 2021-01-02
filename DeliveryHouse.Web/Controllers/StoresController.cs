@@ -213,61 +213,61 @@ namespace DeliveryHouse.Web.Controllers
             return View(model);
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> AddCategory(CategoryViewModel model)
-        //{
-        //    if (ModelState.IsValid)
+        //    [HttpPost]
+        //    [ValidateAntiForgeryToken]
+        //    public async Task<IActionResult> AddCategory(CategoryViewModel model)
         //    {
-        //        string path = string.Empty;
-
-        //        Store store = await _context.Stores.Include(s => s.Categories)
-        //                                           .FirstOrDefaultAsync(m => m.Id == model.IdStore);
-
-        //        if (store == null)
+        //        if (ModelState.IsValid)
         //        {
-        //            return NotFound();
-        //        }
+        //            string path = string.Empty;
 
-        //        if (model.ImageFile != null)
-        //        {
-        //            path = await _imageHelper.UploadImageAsync(model.ImageFile, "categories");
-        //        }
+        //            Store store = await _context.Stores.Include(s => s.Categories)
+        //                                               .FirstOrDefaultAsync(m => m.Id == model.IdStore);
 
-        //        Category category = _converterHelper.ToCategoryEntity(model, path, true);
-
-        //        if (category == null)
-        //        {
-        //            return NotFound();
-        //        }
-
-        //        try
-        //        {
-        //            category.Id = 0;
-        //            store.Categories.Add(category);
-        //            _context.Update(store);
-        //            await _context.SaveChangesAsync();
-
-        //            return RedirectToAction("Details", "Stores", new { Id = model.IdStore });
-        //        }
-        //        catch (DbUpdateException db)
-        //        {
-        //            if (db.InnerException.Message.Contains("duplicate"))
+        //            if (store == null)
         //            {
-        //                ModelState.AddModelError(string.Empty, $"El nombre {model.Name} es ya existe");
+        //                return NotFound();
         //            }
-        //            else
+
+        //            if (model.ImageFile != null)
         //            {
-        //                ModelState.AddModelError(string.Empty, db.InnerException.Message);
+        //                path = await _imageHelper.UploadImageAsync(model.ImageFile, "categories");
+        //            }
+
+        //            Category category = _converterHelper.ToCategoryEntity(model, path, true);
+
+        //            if (category == null)
+        //            {
+        //                return NotFound();
+        //            }
+
+        //            try
+        //            {
+        //                category.Id = 0;
+        //                store.Categories.Add(category);
+        //                _context.Update(store);
+        //                await _context.SaveChangesAsync();
+
+        //                return RedirectToAction("Details", "Stores", new { Id = model.IdStore });
+        //            }
+        //            catch (DbUpdateException db)
+        //            {
+        //                if (db.InnerException.Message.Contains("duplicate"))
+        //                {
+        //                    ModelState.AddModelError(string.Empty, $"El nombre {model.Name} es ya existe");
+        //                }
+        //                else
+        //                {
+        //                    ModelState.AddModelError(string.Empty, db.InnerException.Message);
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                ModelState.AddModelError(string.Empty, ex.Message);
         //            }
         //        }
-        //        catch (Exception ex)
-        //        {
-        //            ModelState.AddModelError(string.Empty, ex.Message);
-        //        }
+
+        //        return View(model);
         //    }
-
-        //    return View(model);
-        //}
     }
 }

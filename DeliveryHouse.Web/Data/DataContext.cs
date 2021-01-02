@@ -1,13 +1,11 @@
 ﻿using DeliveryHouse.Common.Entities;
+using DeliveryHouse.Web.Data.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DeliveryHouse.Web.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<User>
     {
         //DbContextOptions invoca a un proveedor de DB, pasa una cadena de conexión como parámetros
         public DataContext(DbContextOptions<DataContext> options) : base(options)
@@ -19,6 +17,8 @@ namespace DeliveryHouse.Web.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Store> Stores { get; set; }
 
@@ -36,13 +36,13 @@ namespace DeliveryHouse.Web.Data
             modelBuilder.Entity<Department>(d =>
             {
                 d.HasIndex("Name", "CountryId").IsUnique();
-                d.HasMany(d => d.Cities).WithOne(c => c.Department).OnDelete(DeleteBehavior.Cascade);
+                d.HasOne(d => d.Country).WithMany(c => c.Departments).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<City>(c =>
             {
                 c.HasIndex("Name", "DepartmentId").IsUnique();
-                c.HasMany(c => c.Stores).WithOne(s => s.City).OnDelete(DeleteBehavior.Cascade);
+                c.HasOne(c => c.Department).WithMany(d => d.Cities).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Store>(m =>
@@ -53,6 +53,7 @@ namespace DeliveryHouse.Web.Data
             modelBuilder.Entity<Category>(m =>
             {
                 m.HasIndex("Name").IsUnique();
+                m.HasMany(p => p.Products).WithOne(c => c.Category).OnDelete(DeleteBehavior.Cascade);
             });
         }
     }

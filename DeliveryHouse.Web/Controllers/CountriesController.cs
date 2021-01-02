@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace DeliveryHouse.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CountriesController : Controller
     {
         private readonly DataContext _context;
@@ -26,7 +27,7 @@ namespace DeliveryHouse.Web.Controllers
             _converterHelper = converterHelper;
         }
 
-        public async Task<IActionResult> Index()    
+        public async Task<IActionResult> Index()
         {
             return View(await _context.Countries.Include(c => c.Departments)
                                                 .ToListAsync());
@@ -310,7 +311,7 @@ namespace DeliveryHouse.Web.Controllers
             {
                 return NotFound();
             }
-                
+
             Department department = await _context.Departments.Include(d => d.Cities)
                                                               .FirstOrDefaultAsync(d => d.Id == id);
 
@@ -392,9 +393,9 @@ namespace DeliveryHouse.Web.Controllers
                     _context.Update(department);
                     await _context.SaveChangesAsync();
 
-                    return RedirectToAction("DetailsDepartmen", "Countries", new { Id = department.Id});
+                    return RedirectToAction("DetailsDepartmen", "Countries", new { Id = department.Id });
                 }
-                catch(DbUpdateException db)
+                catch (DbUpdateException db)
                 {
                     if (db.InnerException.Message.Contains("duplicate"))
                     {

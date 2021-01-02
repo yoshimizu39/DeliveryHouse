@@ -26,6 +26,7 @@ namespace DeliveryHouse.Common.Entities
             ? $"https://localhost:44352/images/noimage.png"
             : $"https://localhost:44352/images/categories/{ImageCategory}";
 
+        [JsonIgnore]
         public Store Store { get; set; }
 
         public ICollection<Product> Products { get; set; }

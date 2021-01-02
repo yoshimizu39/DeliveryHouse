@@ -3,6 +3,7 @@ using DeliveryHouse.Web.Data;
 using DeliveryHouse.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -54,6 +55,50 @@ namespace DeliveryHouse.Web.Helpers
                 Id = entity.Id,
                 ImageCountry = entity.ImageCountry,
                 Name = entity.Name
+            };
+        }
+
+        public Product ToProductEntity(ProductViewModel model, string path, bool isNew)
+        {
+            return new Product
+            {
+                Id = isNew ? 0 : model.Id,
+                Description = model.Description,
+                Name = model.Name,
+                Price = ToPrice(model.PriceString),
+                IsActive = model.IsActive,
+                IsStarred = model.IsStarred,
+                ImageProduct = path
+            };
+        }
+
+        private decimal ToPrice(string priceString)
+        {
+            string nds = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+
+            if (nds == ".")
+            {
+                priceString = priceString.Replace(",", ".");
+            }
+            else
+            {
+                priceString = priceString.Replace(".", ",");
+            }
+
+            return decimal.Parse(priceString);
+        }
+
+        public ProductViewModel ToProductViewModel(Product entity)
+        {
+            return new ProductViewModel
+            {
+                Id = entity.Id,
+                Description = entity.Description,
+                Name = entity.Name,
+                PriceString = $"{entity.Price}",
+                IsActive = entity.IsActive,
+                IsStarred = entity.IsStarred,
+                ImageProduct = entity.ImageProduct
             };
         }
 

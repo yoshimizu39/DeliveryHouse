@@ -1,0 +1,54 @@
+﻿@model DeliveryHouse.Common.Entities.Product
+
+@{ 
+    ViewData["Title"] = "Details Product";
+}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<h2>Details</h2>
+<hr />
+
+<div>
+    <h4>Product</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name);
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name);
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description);
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description);
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Price);
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price);
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IsStarred);
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IsStarred);
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ImageProduct);
+        </dt>
+        <dd>
+            @if (string.IsNullOrEmpty(Model.ImageProduct))
+            {
+                <img src="@Url.Content(Model.ImageFullPath)" style="width: 200px; height: 200px; max-width: 100%; height: auto;" />
+            }
+            else
+            {
+                <img src="@Url.Content(Model.ImageProduct)" style="width: 200px; height: 200px; max-width: 100%; height: auto;" />
+            }
+        </dd>
+    </dl>
+</div>

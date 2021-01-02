@@ -20,6 +20,7 @@ namespace DeliveryHouse.Common.Entities
         [Display(Name = "Department")]
         public string Name { get; set; }
 
+        [JsonIgnore]
         public Country Country { get; set; }
 
         public ICollection<City> Cities { get; set; }
