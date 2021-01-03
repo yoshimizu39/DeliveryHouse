@@ -82,6 +82,16 @@ namespace DeliveryHouse.Web.Helpers
             }
         }
 
+        public async Task<IdentityResult> ConfirmEmailAsync(User user, string token)
+        {
+            return await _userManager.ConfirmEmailAsync(user, token);
+        }
+
+        public async Task<string> GenerateEmailConfirmatioTokenAsync(User user)
+        {
+            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        }
+
         public async Task<User> GetUserAsync(string email)
         {
             return await _dataContext.Users.Include(u => u.City)

@@ -27,8 +27,8 @@ namespace DeliveryHouse.Web
         {
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
-                //cfg.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
-                //cfg.SignIn.RequireConfirmedEmail = true;
+                cfg.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
+                cfg.SignIn.RequireConfirmedEmail = true;
                 cfg.User.RequireUniqueEmail = true;
                 cfg.Password.RequireDigit = false;
                 cfg.Password.RequiredUniqueChars = 0;
@@ -36,7 +36,7 @@ namespace DeliveryHouse.Web
                 cfg.Password.RequireNonAlphanumeric = false;
                 cfg.Password.RequireUppercase = false;
             })
-                //.AddDefaultTokenProviders()
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<DataContext>();
 
             services.AddDbContext<DataContext>(cfg =>
@@ -71,6 +71,7 @@ namespace DeliveryHouse.Web
             services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IConverterHelper, ConverterHelper>();
             services.AddScoped<IUserHelper, UserHelper>();
+            services.AddScoped<IEmailHelper, EmailHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,11 +1,14 @@
 ﻿using DeliveryHouse.Common.Entities;
 using DeliveryHouse.Common.Enums;
+using DeliveryHouse.Common.Responses;
 using DeliveryHouse.Web.Data;
 using DeliveryHouse.Web.Data.Entities;
 using DeliveryHouse.Web.Helpers;
 using DeliveryHouse.Web.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,13 +20,16 @@ namespace DeliveryHouse.Web.Controllers
         private readonly IUserHelper _userHelper;
         private readonly ICombosHelper _combosHelper;
         private readonly IImageHelper _imageHelper;
+        private readonly IEmailHelper _emailHelper;
 
-        public AccountController(DataContext context, IUserHelper userHelper, ICombosHelper combosHelper, IImageHelper imageHelper)
+        public AccountController(DataContext context, IUserHelper userHelper, ICombosHelper combosHelper, IImageHelper imageHelper,
+                                 IEmailHelper emailHelper)
         {
             _context = context;
             _userHelper = userHelper;
             _combosHelper = combosHelper;
             _imageHelper = imageHelper;
+            _emailHelper = emailHelper;
         }
 
         public IActionResult Login()
@@ -107,19 +113,27 @@ namespace DeliveryHouse.Web.Controllers
                     return View(model);
                 }
 
-                LoginViewModel loginViewModel = new LoginViewModel
+                string myToken = await _userHelper.GenerateEmailConfirmatioTokenAsync(user);
+                string tokenLink = Url.Action("ConfirmEmail", "Account", new
                 {
-                    UserName = model.UserName,
-                    Password = model.Password,
-                    RememberMe = false
-                };
+                    userid = user.Id,
+                    token = myToken
+                }, protocol: HttpContext.Request.Scheme);
 
-                var user2 = await _userHelper.LoginAsync(loginViewModel);
+                Response response = _emailHelper.SednMail(model.UserName, "Email Confirmation",
+                                                          $"<h1> Email Confirmation </h1>" +
+                                                          $"To alloe the user, " +
+                                                          $"please click in this link:<p><a href = \"{tokenLink}\"> Confirm Email </a></p>");
 
-                if (user2.Succeeded)
+                if (response.IsSuccess)
                 {
-                    return RedirectToAction("Index", "Home");
+                    ViewBag.Message = "The instruction to allow your user has been sent to email.";
+
+                    return View(model);
                 }
+
+                ModelState.AddModelError(string.Empty, response.Message);
+
             }
 
             model.Countries = _combosHelper.GetComboCountries();
@@ -266,6 +280,30 @@ namespace DeliveryHouse.Web.Controllers
             }
 
             return View(model);
+        }
+
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
+            {
+                return NotFound();
+            }
+
+            User user = await _userHelper.GetUserAsync(new Guid(userId));
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            IdentityResult result = await _userHelper.ConfirmEmailAsync(user, token);
+
+            if (!result.Succeeded)
+            {
+                return NotFound();
+            }
+
+            return View();
         }
     }
 }
