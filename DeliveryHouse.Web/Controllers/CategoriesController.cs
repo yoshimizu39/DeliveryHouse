@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DeliveryHouse.Common.Entities;
+using DeliveryHouse.Web.Data;
+using DeliveryHouse.Web.Helpers;
+using DeliveryHouse.Web.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using DeliveryHouse.Common.Entities;
-using DeliveryHouse.Web.Data;
-using DeliveryHouse.Web.Models;
-using DeliveryHouse.Web.Helpers;
-using Microsoft.AspNetCore.Authorization;
 
 namespace DeliveryHouse.Web.Controllers
 {

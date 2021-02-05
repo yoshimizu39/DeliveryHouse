@@ -23,5 +23,7 @@ namespace DeliveryHouse.Web.Helpers
         Task<User> GetUserAsync(Guid userId);
         Task<string> GenerateEmailConfirmatioTokenAsync(User user);
         Task<IdentityResult> ConfirmEmailAsync(User user, string token);
+        Task<string> GeneratePasswordResetTokenAsync(User user);
+        Task<IdentityResult> ResetPasswordAsync(User user, string token, string newPassword);
     }
 }

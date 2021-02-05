@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace DeliveryHouse.Common.Entities
 {
@@ -23,13 +21,13 @@ namespace DeliveryHouse.Common.Entities
         public string ImageCategory { get; set; }
 
         public string ImageFullPath => string.IsNullOrEmpty(ImageCategory)
-            ? $"https://localhost:44352/images/noimage.png"
-            : $"https://localhost:44352/images/categories/{ImageCategory}";
+        ? "http://deliveryhouse.somee.com/images/noimage.png"
+        : $"http://deliveryhouse.somee.com/{ImageCategory}";
 
         [JsonIgnore]
         public Store Store { get; set; }
 
         public ICollection<Product> Products { get; set; }
-        
+
     }
 }

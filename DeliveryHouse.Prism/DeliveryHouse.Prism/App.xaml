@@ -5,7 +5,10 @@
              x:Class="DeliveryHouse.Prism.App">
   <Application.Resources>
 
-    <!-- Application resource dictionary -->
+        <ResourceDictionary>
+            <!--<x:String x:Key="UrlAPI">http://localhost:54289</x:String>-->
+            <x:String x:Key="UrlAPI">http://deliveryhouse.somee.com</x:String>
+        </ResourceDictionary>
 
   </Application.Resources>
 </prism:PrismApplication>

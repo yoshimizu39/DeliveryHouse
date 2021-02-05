@@ -59,11 +59,17 @@ namespace DeliveryHouse.Web
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
 
+            services.AddControllersWithViews();
+            //services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Account/NotAuthorized";
                 options.AccessDeniedPath = "/Account/NotAuthorized";
             });
+
+            services.AddCors();
+            //services.AddMvc().AddRazorOptions(opciones => opciones.AllowRecompilingViewsOnFileChange = true);
 
             services.AddTransient<SeedData>();
             services.AddControllersWithViews();
@@ -81,15 +87,35 @@ namespace DeliveryHouse.Web
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
+            //else
+            //{
+            //    app.UseExceptionHandler("/Home/Error");
+            //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            //    app.UseHsts();
+            //}
+
+            if (env.IsProduction() || env.IsStaging() || env.IsEnvironment("Staging"))
             {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                app.UseExceptionHandler("/Error");
             }
+
+            //app.UseCors(x =>
+            //{
+            //    x.AllowAnyOrigin()
+            //     .AllowAnyMethod()
+            //     .AllowAnyHeader()
+            //     .AllowCredentials();
+            //});
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller}/{action}/{id?}");
+            //});
 
             app.UseStatusCodePagesWithReExecute("/error/{0}");
             app.UseAuthentication();
